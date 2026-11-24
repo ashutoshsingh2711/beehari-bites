@@ -1,0 +1,119 @@
+/* =====================================================
+   THEKUA STORE — STYLES
+   HOW TO EDIT:
+   1. Colours, fonts, radius, shadow  -> the :root block below (change once, applies everywhere)
+   2. Dark-mode colours               -> the two dark blocks right after it
+   3. Each section has its own heading comment further down
+   ===================================================== */
+
+/* DESIGN TOKENS (light theme)
+   --bg      page background (warm cream)      --surface cards / panels
+   --text    main text colour                   --muted   secondary text
+   --accent  brand terracotta (buttons, links)  --gold    jaggery-gold highlights
+   --green   deep leaf green (announcement bar, footer)
+   --line    thin borders                       --r       corner radius of cards
+   The padding-top/bottom with env(...) keeps content clear of phone notches. */
+:root{--bg:#F8F0E1;--surface:#fff;--text:#35271F;--muted:#6b5a4e;--accent:#7A2E1F;--on-accent:#fff;--gold:#D5A64A;--green:#334B35;--line:#e3d4b8;--r:16px;--shadow:0 6px 24px rgba(53,39,31,.10);
+--serif:"Playfair Display",Georgia,serif;--sans:"Poppins",system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+/* DARK MODE: applied automatically when the visitor's device is in dark mode.
+   (The second block lets you force dark by adding data-theme="dark" on <html>.) */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1e1611;--surface:#2a1f18;--text:#f3e8d3;--muted:#c4b199;--accent:#e0a37f;--on-accent:#2a1408;--line:#4a3a2d;--green:#a9c4a0;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1e1611;--surface:#2a1f18;--text:#f3e8d3;--muted:#c4b199;--accent:#e0a37f;--on-accent:#2a1408;--line:#4a3a2d;--green:#a9c4a0;color-scheme:dark}
+/* BASE / RESET: sizing, smooth scroll, body font, reduced-motion support */
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px));height:100%}
+body{margin:0;font:400 1rem/1.65 var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+/* TYPOGRAPHY: clamp(min, fluid, max) makes headings scale smoothly with screen width */
+h1,h2,h3{font-family:var(--serif);line-height:1.2;margin:0 0 .5em}
+h1{font-size:clamp(2.2rem,7vw,4rem)}h2{font-size:clamp(1.7rem,4.5vw,2.5rem)}h3{font-size:1.2rem}
+p{margin:0 0 1em}a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+/* LAYOUT HELPERS: .wrap centres content (max 1120px); section = vertical spacing; .eyebrow = small caps label */
+.wrap{width:min(1120px,100% - 2.5rem);margin-inline:auto}
+section{padding:clamp(3rem,8vw,6rem) 0}
+.eyebrow{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+/* BUTTONS: .btn is the filled brand button; add class 'ghost' for outline, 'wa' for WhatsApp green */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:46px;padding:.65rem 1.4rem;border-radius:999px;border:1.5px solid var(--accent);background:var(--accent);color:var(--on-accent);font:600 .95rem var(--sans);text-decoration:none;cursor:pointer;transition:transform .15s,opacity .15s}
+.btn:hover{transform:translateY(-1px)}.btn.ghost{background:transparent;color:var(--accent)}.btn.wa{background:#1f7a4d;border-color:#1f7a4d;color:#fff}
+.btn:disabled,.btn[aria-disabled=true]{opacity:.5;cursor:not-allowed;transform:none}
+/* Decorative heritage stripe shown under the hero */
+.pattern{height:10px;background:repeating-linear-gradient(135deg,var(--gold) 0 6px,transparent 6px 12px);opacity:.6}
+/* ANNOUNCEMENT BAR (text comes from CONFIG.announcement in main.js) */
+#announce{background:var(--green);color:#f8f0e1;text-align:center;font-size:.85rem;padding:.45rem 1rem}
+:root:is([data-theme=dark]) #announce{color:#1e1611}
+/* NAVIGATION: sticky header, logo wordmark, links, cart icon with count badge */
+header.nav{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:1rem}
+.logo{font:700 1.4rem var(--serif);color:var(--accent);text-decoration:none}
+nav ul{display:flex;gap:1.4rem;list-style:none;margin:0;padding:0}
+nav a{text-decoration:none;color:var(--text);font-size:.92rem;font-weight:500}nav a:hover{color:var(--accent)}
+.icon-btn{background:none;border:0;color:var(--text);min-width:44px;min-height:44px;cursor:pointer;font-size:1.3rem;position:relative}
+.badge{position:absolute;top:2px;right:0;background:var(--accent);color:var(--on-accent);border-radius:999px;font:600 .7rem var(--sans);min-width:18px;height:18px;display:grid;place-items:center}
+#menuBtn{display:none}
+/* MOBILE NAV: below 760px the links collapse into a dropdown opened by the ☰ button */
+@media (max-width:760px){#menuBtn{display:inline-block}nav{position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);display:none}nav.open{display:block}nav ul{flex-direction:column;padding:1rem 1.25rem;gap:.9rem}}
+/* HERO: one column on mobile, text + illustration side by side from 860px */
+.hero .wrap{display:grid;gap:2rem;align-items:center}
+@media (min-width:860px){.hero .wrap{grid-template-columns:1.1fr 1fr}}
+.hero p.lead{color:var(--muted);max-width:34em}.cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.4rem}
+.hero-art{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:1.5rem;box-shadow:var(--shadow)}
+/* TRUST STRIP: the row of short promises under the hero */
+.trust{padding:1.5rem 0;border-block:1px solid var(--line);background:var(--surface)}
+.trust ul{list-style:none;margin:0;padding:0;display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.trust li{display:flex;gap:.7rem;align-items:center;font-size:.9rem}
+/* PRODUCT GRID: auto-fills as many 250px+ columns as fit the screen */
+.grid{display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+/* PRODUCT CARD: image area (.img) + body. .tag is the badge such as 'Bestseller' */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);position:relative}
+.card .img{aspect-ratio:4/3;background:linear-gradient(160deg,#f1dfb8,#e8c88a);display:grid;place-items:center}
+:root[data-theme=dark] .card .img{background:#3a2c20}
+.card .body{padding:1.1rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.card p{color:var(--muted);font-size:.9rem;margin:0}
+.tag{position:absolute;top:.7rem;left:.7rem;background:var(--gold);color:#35271F;font:600 .72rem var(--sans);padding:.2rem .7rem;border-radius:999px}
+.price{font:700 1.3rem var(--serif);color:var(--accent)}
+select,input,textarea{font:inherit;color:var(--text);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:.65rem .8rem;width:100%;min-height:44px}
+.sample{font-size:.75rem;color:var(--muted)}
+/* TWO-COLUMN SECTIONS (Story, Contact) and .alt = the lighter alternate background band */
+.two{display:grid;gap:2rem;align-items:center}@media (min-width:860px){.two{grid-template-columns:1fr 1fr}}
+.alt{background:var(--surface);border-block:1px solid var(--line)}
+/* WHY-US FEATURE BLOCKS */
+.feat{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.feat div{padding:1.4rem;border:1px solid var(--line);border-radius:var(--r);background:var(--bg)}
+/* FAQ ACCORDION: uses native <details>/<summary>, so it works with keyboard and screen readers */
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:.7rem;padding:.2rem 1rem}
+summary{cursor:pointer;font-weight:600;padding:.8rem 0;min-height:44px}details p{color:var(--muted)}
+/* FORMS: shared by checkout and contact. .err is the red validation message under each field */
+form .row{margin-bottom:.9rem}label{display:block;font-size:.85rem;font-weight:500;margin-bottom:.25rem}
+.err{color:#b3261e;font-size:.8rem;min-height:1em;display:block}:root[data-theme=dark] .err{color:#ff9d92}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .err{color:#ff9d92}}
+/* SITE FOOTER */
+footer{background:var(--green);color:#f3e8d3;padding:3rem 0 2rem}footer a{color:#f3e8d3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) footer{background:#14100c}}
+:root[data-theme=dark] footer{background:#14100c}
+footer .cols{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+/* CART DRAWER: dark overlay + panel that slides in from the right (.open class toggled by main.js) */
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+#overlay.show{opacity:1;pointer-events:auto}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--bg);z-index:40;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;visibility:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+#drawer.open{transform:none;visibility:visible}
+#drawer header{display:flex;justify-content:space-between;align-items:center;padding:.6rem 1.2rem;border-bottom:1px solid var(--line)}
+#drawer h2{font-size:1.3rem;margin:0}
+#lines{flex:1;overflow:auto;padding:1rem 1.2rem;list-style:none;margin:0}
+#lines li{display:grid;grid-template-columns:1fr auto;gap:.3rem .8rem;padding:.8rem 0;border-bottom:1px solid var(--line)}
+/* Quantity −/+ control inside the cart */
+.qty{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px}
+.qty button{background:none;border:0;color:var(--text);width:40px;height:40px;font-size:1.1rem;cursor:pointer}
+.qty span{min-width:1.6rem;text-align:center}
+.link{background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;font-size:.82rem}
+#drawer footer.sum{background:var(--surface);color:var(--text);padding:1rem 1.2rem;border-top:1px solid var(--line);display:grid;gap:.5rem}
+.row2{display:flex;justify-content:space-between;font-size:.9rem}.row2.total{font-weight:600;font-size:1.05rem}
+/* CHECKOUT DIALOG (native <dialog>, opened with showModal() in main.js) */
+dialog{border:0;border-radius:var(--r);padding:0;width:min(560px,calc(100% - 1.5rem));max-height:92vh;background:var(--bg);color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.5)}dialog .in{padding:1.4rem}
+.f2{display:grid;gap:0 .9rem;grid-template-columns:1fr 1fr}@media (max-width:480px){.f2{grid-template-columns:1fr}}
+/* TOAST: small message shown briefly after add/remove actions */
+#toast{position:fixed;left:50%;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--green);color:#fff;padding:.6rem 1.2rem;border-radius:999px;font-size:.9rem;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+/* NOTE BOX: used for placeholders and 'not configured' warnings. Remove the box once content is final. */
+.note{background:var(--surface);border:1px dashed var(--gold);border-radius:10px;padding:.7rem .9rem;font-size:.82rem;color:var(--muted)}
